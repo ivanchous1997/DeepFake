@@ -1,4 +1,4 @@
 export enum TaskType{
-    Detection = 1,
-    Generation = 2
+    Detection = 'Распознавание',
+    Generation = 'Генерация'
 }

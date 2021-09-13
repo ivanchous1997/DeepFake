@@ -79,4 +79,9 @@ export class AccountService {
                 return x;
             }));
     }
+
+    getCurrentUser(){
+        if(this.user)
+            return this.user;
+    }
 }

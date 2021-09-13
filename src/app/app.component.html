@@ -1,15 +1,15 @@
 ﻿<!-- nav -->
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
     <div class="navbar-nav">
-        <a class="link-profile nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Мой профиль</a>
-        <a class="nav-item nav-link" routerLink="/detection" routerLinkActive="active">Распознавание</a>
-        <a class="nav-item nav-link" routerLink="/generation" routerLinkActive="active">Генерация</a>
+        <a class="link-profile nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Мой профиль ({{user.username}})</a>
+        <a class="nav-item nav-link" routerLink="/detection" routerLinkActive="active">Распознавание/Генерация</a>
+        <!-- <a class="nav-item nav-link" routerLink="/generation" routerLinkActive="active">Генерация</a> -->
         <a class="link-out nav-item nav-link" (click)="logout()">Выйти</a>
     </div>
 </nav>
 
 <!-- main app container -->
-<div class="app-container" [ngClass]="{ 'bg-light': user }">
+<div>
     <alert></alert>
     <router-outlet></router-outlet>
 </div>

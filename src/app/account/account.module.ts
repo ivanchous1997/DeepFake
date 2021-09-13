@@ -6,12 +6,14 @@ import { AccountRoutingModule } from './account-routing.module';
 import { LayoutComponent } from './layout.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AccountRoutingModule
+        AccountRoutingModule,
+        MatButtonModule
     ],
     declarations: [
         LayoutComponent,

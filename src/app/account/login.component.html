@@ -1,27 +1,26 @@
 ﻿<div class="card">
-    <h4 class="card-header">Login</h4>
+    <h4 class="card-header">Логин</h4>
     <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Логин</label>
                 <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                    <div *ngIf="f.username.errors.required">Введите <strong>логин</strong></div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Пароль</label>
                 <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.required">Введите <strong>пароль</strong></div>
                 </div>
             </div>
             <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
+                <button mat-stroked-button [disabled]="loading" color="primary">
+                    <div style="font-size: large;">Войти</div>
                 </button>
-                <a routerLink="../register" class="btn btn-link">Register</a>
+                <a style="font-size: large;" mat-stroked-button routerLink="../register">Регистрация</a>
             </div>
         </form>
     </div>

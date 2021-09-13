@@ -1,2 +1,80 @@
-<h2>Recognition</h2>
-<h2>Hello {{userName}}</h2>
+<div class="margin-round">
+    <h2><strong>Распознавание дипфейков</strong></h2>
+    <div class="work-area">
+        <table>
+            <tr>
+                <td style="padding:0 50px 0 50px;">
+                    <section>
+                        <mat-form-field style="width: 450px;" appearance="fill">
+                            <mat-label>Название задачи</mat-label>
+                            <input type="text" (keydown)="onTaskNameChangedEvent($event)" [(ngModel)]="taskName" matInput [formControl]="taskNameFormControl" placeholder="Задача 1" >
+                            <mat-error *ngIf="taskNameFormControl.hasError('required')">
+                              Название <strong>обязательно</strong>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-error *ngIf="taskNameExists">
+                            Название {{taskName}} <strong>уже существует</strong>
+                        </mat-error>
+                    </section>
+                </td>
+
+                <td>
+                    <div style="margin-top: 40px;">
+                        <div>
+                            <button mat-raised-button color="primary" style="height: 40px; width: 200px; margin: 10px;" (click)="initDetectionTask()">
+                                <mat-label style="font-size: large;">Распознать </mat-label>
+                                <mat-icon>image_search</mat-icon>
+                            </button>
+                        </div>
+                        <div>
+                            <button mat-raised-button color="primary" style="height: 40px; width: 200px; margin: 10px;" (click)="initGenerationTask()">
+                                <mat-label style="font-size: large;">Сгенерировать </mat-label>
+                                <mat-icon>add_photo_alternate</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="container-style" appDnd (fileDropped)="onFileDropped($event)">
+                        <input type="file" #fileDropRef id="fileDropRef" single 
+                                (change)="fileBrowseHandler($event.target.files)" 
+                                [accept]="requieredFilesTypes"
+                                />
+                        <img src="assets/img/dnd/ic-upload-file.svg" style="height: 25px; width: 25px;">
+                        <p style="margin-top: 10px;"><strong>Перетащите файл в эту область</strong></p>
+                        <button for="fileDropRef" mat-flat-button color="primary">
+                            <div style="font-size: small;">Выбрать файл</div>
+                        </button>
+                    </div>
+                    <div>
+                        <mat-error style="width:100%; margin-left: 65px; margin-top: 10px;" 
+                                    *ngIf="isFilesInputInvalid">
+                            Прикрепите файл <strong>.mp4, .png, .jpeg, .jpg</strong>
+                        </mat-error>
+                    </div>
+                    <div class="files-list" *ngIf="files.length > 0">
+                        <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="files-viewport">
+                            <div class="single-file" *ngFor="let file of files; let i = index">
+                                <img src="assets/img/dnd/ic-file.svg" width="45px" alt="file">
+                                <div class="info">
+                                <h4 class="name">
+                                    {{ file?.name }}
+                                </h4>
+                                <p class="size">
+                                    {{ formatBytes(file?.size) }}
+                                </p>
+                                </div>
+                                <button mat-mini-fab color="warn" title="Удалить" (click)="deleteFile(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

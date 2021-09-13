@@ -1,5 +1,90 @@
-﻿<div class="p-4">
-    <div class="container">
-        <h1>Hi {{user.firstName}}!</h1>
+﻿<div class="margin-round">
+    <h2><strong>Мои задачи</strong></h2>
+    <mat-error style="margin-top: 40px;" *ngIf="tasks.length == 0"><strong>Нет созданных задач</strong></mat-error>
+    <div *ngIf="tasks.length > 0">
+        <mat-form-field style="width: 20%;">
+            <mat-label><strong>Фильтр</strong></mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Задача" #input>
+        </mat-form-field>
+        <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="tasks-viewport">
+            <table style="width: 100%;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            
+                <ng-container matColumnDef="taskName">
+                    <th mat-header-cell style="color: black;" *matHeaderCellDef><h4><strong>Название</strong></h4> </th>
+                    <td mat-cell *matCellDef="let task"> <label>{{task.taskName}}</label></td>
+                </ng-container>
+            
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell style="color: black;" *matHeaderCellDef><h4><strong>Статус</strong></h4></th>
+                    <td mat-cell *matCellDef="let task">
+                        <label *ngIf="task.status == 'Выполнено успешно'" style="color: rgb(79, 209, 79);">
+                            {{task.status}}
+                        </label>
+                        <label *ngIf="task.status == 'Выполняется'" style="color: rgb(228, 231, 20);">
+                            {{task.status}}
+                        </label>
+                        <label *ngIf="task.status == 'Новая'" style="color: rgb(85, 122, 243)">
+                            {{task.status}}
+                        </label>
+                        <label *ngIf="task.status == 'Ошибка выполнения'" style="color: rgb(236, 72, 72);">
+                            {{task.status}}
+                        </label>
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell style="color: black;" *matHeaderCellDef><h4><strong>Тип задачи</strong></h4></th>
+                    <td mat-cell *matCellDef="let task"> {{task.type}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="details">
+                    <th style="width: 50px;" mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let task">
+                        <button mat-mini-fab color="primary" title="Детали" (click)="openTaskDetails(task)">
+                            <mat-icon>apps</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">Нет записей совпадающих с фильтром "{{input.value}}"</td>
+                </tr>
+            </table>
+        </cdk-virtual-scroll-viewport>
     </div>
+    
+
+    <!-- <div class="files-list" style="width: 100%; height: 100%;" *ngIf="tasks.length > 0">
+        <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="files-viewport">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="padding:0 15px 0 15px;">Название</th>
+                        <th style="padding:0 15px 0 15px;">Тип задачи</th>
+                        <th style="padding:0 15px 0 15px;">Статус</th>
+                        <th style="padding:0 15px 0 15px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of tasks; let i = index">
+                        <td style="padding:0 15px 0 15px;">
+                            {{task.taskName}}
+                        </td>
+                        <td style="padding:0 15px 0 15px;">
+                            {{task.type}}
+                        </td>
+                        <td style="padding:0 15px 0 15px;">
+                            {{task.status}}
+                        </td>
+                        <td style="padding:0 15px 0 15px;">
+                            <button>Детали</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        
+    </div> -->
 </div>

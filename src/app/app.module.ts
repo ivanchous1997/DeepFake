@@ -10,19 +10,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
-import { ProfileComponent } from './profile';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { DndDirective } from '@app/_directives/dnd.directive';
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
+        AppRoutingModule,
+        NoopAnimationsModule,
     ],
     declarations: [
         AppComponent,
         AlertComponent,
-        ProfileComponent
+        DndDirective
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,0 +1,75 @@
+<div class="margin-round">
+    <mat-label style="font-size: xx-large;"><strong>{{task.taskName}} </strong></mat-label>
+    <h4 style="color: rgba(0,0,0,.54)">{{taskType}}</h4 >
+    <div>
+        <label *ngIf="task.status == 'Выполнено успешно'" style="color: rgb(79, 209, 79);">
+            ({{task.status}})
+        </label>
+        <label *ngIf="task.status == 'Выполняется'" style="color: rgb(199, 223, 64);">
+            ({{task.status}})
+        </label>
+        <label *ngIf="task.status == 'Новая'" style="color: rgb(85, 122, 243)">
+            ({{task.status}})
+        </label>
+        <label *ngIf="task.status == 'Ошибка выполнения'" style="color: rgb(236, 72, 72);">
+            ({{task.status}})
+        </label>
+    </div>
+
+    <table>
+        <tr>
+            <td style="padding-right: 150px;">
+                <div style="margin-top: 50px;">
+                    <h5>Загруженные изображения/видео:</h5>
+                </div>
+                <cdk-virtual-scroll-viewport appendOnly itemSize="50" 
+                    
+                    class="files-viewport" 
+                    style="margin-left: 0px; margin-top: 30px; height: 300px;">
+                <div class="single-file" *ngFor="let file of task.files; let i = index">
+                    <img src="assets/img/dnd/ic-file.svg" width="45px" alt="file">
+                    <div class="info">
+                    <h4 class="name">
+                        {{ file?.name }}
+                    </h4>
+                    <p class="size">
+                        {{ formatBytes(file?.size) }}
+                    </p>
+                    </div>
+                </div>
+            </cdk-virtual-scroll-viewport>
+            </td>
+            <td style="padding-left: 300px;">
+                <div style="margin-top: 50px;">
+                    <h5>Результат: </h5>
+                    <h2 style="color: green;">{{task.result.averageProbability}} - дипфейк</h2>
+                    <h5>Выявленные личности: {{task.result.detectedFaces}}</h5>
+                </div>
+                <div>
+                    <h5>Статистика: </h5>
+                    <table style="width: 500px; height: auto;" mat-table [dataSource]="taskResultSource" class="mat-elevation-z8">
+                
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell style="color: black;" *matHeaderCellDef><strong>Название алгоритма</strong></th>
+                            <td mat-cell *matCellDef="let result"> <label>{{result.name}}</label></td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="algResult">
+                            <th mat-header-cell style="color: black;" *matHeaderCellDef><strong>Вероятность дипфейка</strong></th>
+                            <td mat-cell *matCellDef="let result">
+                                <label >
+                                    {{result.deepfake}}
+                                </label>
+                            </td>
+                        </ng-container>
+                        
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+</div>

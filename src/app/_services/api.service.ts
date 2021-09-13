@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@environments/environment';
+import { Observable } from 'rxjs';
+import { Task } from '@app/_models/task/task';
+import { TaskType } from '@app/_models/task/taskType';
 
 
 @Injectable({ providedIn: 'root' })
@@ -10,8 +13,8 @@ export class ApiService {
         private _http: HttpClient
     ) {}
 
-    //detection
-    createDetectionTask (login: any, files: any, settings: any) {
+    //#region create tasks
+    createDetectionTask (login: any, files: any, taskName: string) {
 
         let url = `${environment.apiServiceConfiguration.baseUrl}` + 
         ``;
@@ -19,30 +22,19 @@ export class ApiService {
         const body = {
             login: login,
             files: files,
-            settings: settings
+            taskName: taskName
         }
 
-        const response = this._http.post<string>(url, body)
+        const response = this._http.post(url, {
+            Login: login, 
+            TaskName: taskName, 
+            Files: files
+        })
         .toPromise();
         return response;
     }
 
-    deleteDetectionTask (login: any, taskId: number) {
-        let url = `${environment.apiServiceConfiguration.baseUrl}` + 
-        ``;
-
-        return this._http.get(url);
-    }
-
-    getDetectionTasks (login:any) {
-        let url = `${environment.apiServiceConfiguration.baseUrl}` + 
-        ``;
-
-        return this._http.get(url);
-    }
-
-    //generation
-    createGenerationTask (login: any, files: any, settings: any) {
+    createGenerationTask (login: string, files: any, taskName: string) {
 
         let url = `${environment.apiServiceConfiguration.baseUrl}` + 
         ``;
@@ -50,25 +42,60 @@ export class ApiService {
         const body = {
             login: login,
             files: files,
-            settings: settings
+            taskName: taskName
         }
 
+        console.log(body);
         const response = this._http.post<string>(url, body)
         .toPromise();
         return response;
     }
+    //#endregion
 
-    deleteGenerationTask (login: any, taskId: number) {
+    //#region delete tasks
+    deleteDetectionTaskById (login: string, taskId: number) {
         let url = `${environment.apiServiceConfiguration.baseUrl}` + 
         ``;
 
         return this._http.get(url);
     }
 
-    getGenerationTasks (login:any) {
+    deleteGenerationTaskById (login: string, taskId: number) {
         let url = `${environment.apiServiceConfiguration.baseUrl}` + 
         ``;
 
         return this._http.get(url);
     }
+    //#endregion
+
+    //#region get tasks
+
+    async getDetectionTaskById (login: string, taskId: number): Promise<Task> {
+        let url = `${environment.apiServiceConfiguration.baseUrl}` + 
+        ``;
+        const params = new HttpParams()
+            .set('Login', login)
+            .set('TaskId', String(taskId));
+        var result = await this._http.get<Task>(url, {params: params}).toPromise();
+        return result;
+    }
+
+    async getGenerationTaskById (login: string, taskId: number): Promise<Task> {
+        let url = `${environment.apiServiceConfiguration.baseUrl}` + 
+        ``;
+        const params = new HttpParams()
+            .set('Login', login)
+            .set('TaskId', String(taskId));
+        var result = await this._http.get<Task>(url, {params: params}).toPromise();
+        return result;
+    }
+
+    async getAllTasksByLogin(login: string): Promise<Task[]> {
+        
+        let url = `${environment.apiServiceConfiguration.baseUrl}` + 
+        ``;
+        var result = await this._http.get<Task[]>(url).toPromise();
+        return result;
+    }
+    //#endregion
 }
